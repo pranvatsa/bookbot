@@ -1,20 +1,21 @@
-def get_num_words(text):
-    words = text.split()
-    return len(words)
+from collections import Counter
+from typing import Dict, List
 
-def get_char_counts(text):
-    char_counts = {}
-    for char in text.lower():
-        if char in char_counts:
-            char_counts[char] += 1
-        else:
-            char_counts[char] = 1
-    return char_counts
+def get_num_words(text: str) -> int:
+    """Return the number of words in the given text."""
+    return len(text.split())
 
-def sort_char_counts(char_counts):
-    sorted_list = []
-    for char, count in char_counts.items():
-        if char.isalpha():
-            sorted_list.append({"char": char, "num": count})
-    sorted_list.sort(key=lambda x: x["num"], reverse=True)
-    return sorted_list
+def get_char_counts(text: str) -> Dict[str, int]:
+    """Return a dictionary of character counts (case-insensitive) for the given text."""
+    return dict(Counter(text.lower()))
+
+def sort_char_counts(char_counts: Dict[str, int]) -> List[Dict[str, int]]:
+    """
+    Return a sorted list of dictionaries with character and count,
+    sorted by count descending, only for alphabetic characters.
+    """
+    return sorted(
+        ({"char": char, "num": count} for char, count in char_counts.items() if char.isalpha()),
+        key=lambda x: x["num"],
+        reverse=True
+    )
